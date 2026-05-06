@@ -70,7 +70,7 @@ jobs:
           name: my-app
           path: dist
   deploy:
-    needs: build
+    needs: [build, lint]
     runs-on: ubuntu-latest
     steps:
       - name: Pseudo Deployment
