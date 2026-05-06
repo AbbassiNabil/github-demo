@@ -9,7 +9,7 @@
     <table class="task-list">
       <tr v-for="(task, index) in tasks" :key="index" >
         <td><input type="checkbox" v-model="task.completed" /></td>
-        <td><span   :data-cy="`task-name-${index}`" class="ml-2 mr-5":class="{ completed: task.completed }">{{ task.text }}</span></td>
+        <td><span   :data-cy="`task-name-${index}`" class="ml-2 mr-5" :class="{ completed: task.completed }">{{ task.text }}</span></td>
         <td><button :data-cy="`remove-task-${index}`" class="my-1" @click="removeTask(index)">❌</button></td>
       </tr>
     </table>
@@ -34,7 +34,6 @@
   const newTask = ref<string>('');
   const tasks = ref<Task[]>([]);
   const snackbar = ref<boolean>(false);
-  const snackbar_text = ref<string>("I'm special");
 
   const addTask = () => {
     if (newTask.value.trim() !== '') {

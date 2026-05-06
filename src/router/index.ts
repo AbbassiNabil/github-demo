@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { Router, RouteRecordRaw } from 'vue-router';
 
-import TodoList from '../components/TodoList.vue';
+// import TodoList from '../components/TodoList.vue';
 import CrazyCountDown from '../components/CrazyCountDown.vue';
 import Home from '../components/Home.vue';
 import WhatIsMyLocation from '../components/WhatIsMyLocation.vue';
@@ -19,7 +19,8 @@ function setupRouter(): Router {
 		{
 			path: '/todo',
 			name: 'todo',
-			component: TodoList,
+			// component: TodoList,
+			component: () => import('../components/TodoList.vue')
 		},
 		{
 			path: '/location',
@@ -35,6 +36,11 @@ function setupRouter(): Router {
 			path: '/theForm',
 			name: 'theForm',
 			component: TheForm,
+		},
+		{
+			path: '/periodic',
+			name: 'periodic',
+			component: () => import('../components/PeriodicElementTable.vue')
 		},
 		{
 			path: '/:pathMatch(.*)*',

@@ -5,7 +5,7 @@
   <section class="text-center">
     <h2 class="countDown" data-cy="count-down">{{ countDown }}</h2>
     <v-btn v-if="gameState == gameStates.Init" @click="startGame()" >Start</v-btn>
-    <v-btn v-else @click="checkResult()" :disabled="gameState === gameStates.Stopped || checkDisabled" >
+    <v-btn data-cy="the-button" v-else @click="checkResult()" :disabled="gameState === gameStates.Stopped || checkDisabled" >
       Click on : <span data-cy="expected-value">{{ expectedNumber }}</span>
     </v-btn>
 
@@ -39,7 +39,7 @@
 
   let gameState = ref<gameStates>(gameStates.Init);
 
-  let expectedNumber = 3;
+  let expectedNumber = ref(3);
   let score = 0;
   let nbErrors = 0;
   let checkDisabled = false;
@@ -54,7 +54,7 @@
   let bestTime = localStorage.getItem('CCD-BestTime') || '';
 
   const limit = 10;
-  const maxScore = 1;
+  const maxScore = 3;
 
   const formattedTime = (() => {
     let centi = time.value % 100;
@@ -74,11 +74,12 @@
   function checkResult() {
     checkDisabled = true;
 
-    if (countDown.value === expectedNumber) {
+    if (countDown.value === expectedNumber.value) {
       setTimeout(() => {checkDisabled = false}, 250);
       score++;
       snackbarText = (score === maxScore)? 'YOU WIN !!' : 'Great (+1) !!';
       snackbarColor = 'success';
+      expectedNumber.value = Math.floor(Math.random()*limit);
     } else {
       setTimeout(() => {checkDisabled = false}, 1500);
       nbErrors++;
@@ -125,6 +126,7 @@
     gameState.value = gameStates.Init;
     score = 0;
     nbErrors = 0;
+    expectedNumber.value = 3;
   }
 </script>
 
