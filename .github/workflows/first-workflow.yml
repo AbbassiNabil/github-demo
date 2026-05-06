@@ -17,16 +17,6 @@ jobs:
       - name: A final step
         run: ls -al
   second-job:
-    # runs-on: ubuntu-latest
-    # steps:
-    #   - name: check file there
-    #     run: |
-    #       hostname
-    #       pwd
-    #       ls -al
-    #   - name: Test environment variable
-    #     run: |
-    #       echo "Value: ${{ vars.MY_ENV_VAR }}"
     runs-on: ubuntu-latest
     env:
       MY_JOB_VAR: "This is the end"
