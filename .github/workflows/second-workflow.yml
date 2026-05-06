@@ -6,6 +6,17 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v6
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress
+          key: npm-dep-${{ hashFiles('**/package-lock.json') }}
+      - name: Get dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Get dependencies
         run: npm ci
       - name: Lint code
@@ -16,27 +27,12 @@ jobs:
         run: npm run dev < /dev/null & npx wait-on "http://localhost:5173" --timeout 10s
       - name: Cypress Tests
         run: npx cypress run
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            ~/.cache/Cypress
-          key: npm-dep-${{ hashFiles('**/package-lock.json') }}
-      - name: Get dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v4
-      - name: Get dependencies
-        run: npm ci
-      - name: Build the app
-        run: npm run build
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v4
@@ -48,6 +44,10 @@ jobs:
       - name: Get dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Get dependencies
+        run: npm ci
+      - name: Build the app
+        run: npm run build
   deploy:
     needs: build
     runs-on: ubuntu-latest
