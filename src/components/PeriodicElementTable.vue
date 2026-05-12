@@ -18,15 +18,17 @@ import type PeriodicElement from "../model/PeriodicElement";
 import { ref, onMounted } from "vue";
 
 const periodicElements = ref<PeriodicElement[]>([]);
-const errorMsg = ref<string>('');
+const errorMsg = ref<string>("");
 
 const fetchPeriodicElements = async () => {
   try {
-    const response = await fetch("/api/periodic_elements" ,{
-      headers: { "Authorization": `Bearer ${import.meta.env.VITE_BACKEND_TOKEN}`}
+    const response = await fetch("/api/periodic_elements", {
+      headers: {
+        Authorization: `Bearer dxXRXdWEMBSMwfEUamc2y0rDce0MqZgVmAW9DL1fdBo`,
+      },
     });
     if (!response.ok) {
-      errorMsg.value = 'Pas de connexion à la base';
+      errorMsg.value = "Pas de connexion à la base";
       throw new Error("Erreur réseau ou serveur.");
     }
     const data = await response.json();
@@ -42,7 +44,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   text-align: center;
 }
 .grid-container {
