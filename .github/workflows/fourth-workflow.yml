@@ -20,27 +20,41 @@ jobs:
         with:
           start: npm run dev
           wait-on: "http://localhost:5173"
-      # - name: Cache dependencies
-      #   id: cache
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       node_modules
-      #       ~/.cache/Cypress
-      #     key: npm-dep-${{ hashFiles('**/package-lock.json') }}
-      # - name: Get dependencies
-      #   if: steps.cache.outputs.cache-hit != 'true'
-      #   run: npm ci
-      # - name: Get dependencies
-      #   run: npm ci
-      # - name: Lint code
-      #   run: npm run lint
-      # - name: List content
-      #   run: ls -al
-      # - name: Run the server
-      #   run: npm run dev < /dev/null & npx wait-on "http://localhost:5173" --timeout 10s
-      # - name: Cypress Tests
-      #   run: npx cypress run
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress
+          key: npm-dep-${{ hashFiles('**/package-lock.json') }}
+      - name: Get dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Get dependencies
+        run: npm ci
+      - name: Lint code
+        run: npm run lint
+      - name: List content
+        run: ls -al
+      - name: Run the server
+        run: npm run dev < /dev/null & npx wait-on "http://localhost:5173" --timeout 10s
+      - name: Cypress Tests
+        run: npx cypress run
+    services:
+      db:
+        image: postgres:17.4-alpine3.21
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: nabil
+          POSTGRES_PASSWORD: nabil
+          POSTGRES_DB: gh_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
   build:
     needs: test
     runs-on: ubuntu-latest
