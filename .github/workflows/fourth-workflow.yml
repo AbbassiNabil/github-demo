@@ -10,7 +10,7 @@ on:
       - main
       - "release/**"
 env:
-  IMAGE_NAME: github-demo
+  IMAGE_NAME: ${{ github.repository }}
   REGISTRY: ghcr.io
 
 jobs:
