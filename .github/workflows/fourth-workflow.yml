@@ -9,6 +9,10 @@ on:
     branches:
       - main
       - "release/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 env:
   IMAGE_NAME: ${{ github.repository }}
   REGISTRY: ghcr.io
@@ -165,3 +169,4 @@ jobs:
       #     echo VERSION=$VERSION
       #     docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
       #     docker push $IMAGE_ID:$VERSION
+# (docker run --rm -p 8080:80 ghcr.io/abbassinabil/github-demo:main), pour demarrer le conenaire sur le server localhost:8080
