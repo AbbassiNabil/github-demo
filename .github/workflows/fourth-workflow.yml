@@ -9,7 +9,8 @@ on:
     branches:
       - main
       - "release/**"
-env: $IMAGE_NAME
+env:
+  $IMAGE_NAME: github-demo
 jobs:
   # test:
   #   runs-on: ubuntu-latest
