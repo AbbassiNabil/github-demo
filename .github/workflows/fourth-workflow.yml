@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v6
-  test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -33,7 +33,7 @@ jobs:
         with:
           start: npm run dev
           wait-on: "http://localhost:5173"
-     
+
     services:
       db:
         image: postgres:17.4-alpine3.21
