@@ -5,6 +5,10 @@ on:
       - test
     types:
       - opened
+  push:
+    branches:
+      - main
+      - "release/**"
 jobs:
   # test:
   #   runs-on: ubuntu-latest
